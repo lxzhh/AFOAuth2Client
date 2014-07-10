@@ -25,8 +25,12 @@
 #warning Security framework not found in project, or not included in precompiled header. Keychain persistence functionality will not be available.
 #endif
 
+
+
 @class AFOAuthCredential;
 
+
+typedef void(^STAFOauthResponse)(AFOAuthCredential *credential, id responseObject);
 /**
  `AFOAuth2Client` encapsulates common patterns to authenticate against a resource server conforming to the behavior outlined in the OAuth 2.0 specification.
  
@@ -106,7 +110,7 @@
                                    username:(NSString *)username
                                    password:(NSString *)password
                                       scope:(NSString *)scope
-                                    success:(void (^)(AFOAuthCredential *credential))success
+                                    success:(STAFOauthResponse)success
                                     failure:(void (^)(NSError *error))failure;
 
 /**
@@ -119,7 +123,7 @@
  */
 - (void)authenticateUsingOAuthWithURLString:(NSString *)urlString
                                       scope:(NSString *)scope
-                                    success:(void (^)(AFOAuthCredential *credential))success
+                                    success:(STAFOauthResponse)success
                                     failure:(void (^)(NSError *error))failure;
 
 /**
@@ -132,7 +136,7 @@
  */
 - (void)authenticateUsingOAuthWithURLString:(NSString *)urlString
                                refreshToken:(NSString *)refreshToken
-                                    success:(void (^)(AFOAuthCredential *credential))success
+                                    success:(STAFOauthResponse)success
                                     failure:(void (^)(NSError *error))failure;
 
 /**
@@ -147,7 +151,7 @@
 - (void)authenticateUsingOAuthWithURLString:(NSString *)urlString
                                        code:(NSString *)code
                                 redirectURI:(NSString *)uri
-                                    success:(void (^)(AFOAuthCredential *credential))success
+                                    success:(STAFOauthResponse)success
                                     failure:(void (^)(NSError *error))failure;
 
 /**
@@ -160,7 +164,7 @@
  */
 - (void)authenticateUsingOAuthWithURLString:(NSString *)urlString
                                  parameters:(NSDictionary *)parameters
-                                    success:(void (^)(AFOAuthCredential *credential))success
+                                    success:(STAFOauthResponse)success
                                     failure:(void (^)(NSError *error))failure;
 
 @end

@@ -80,7 +80,7 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
 
 - (void)setAuthorizationHeaderWithToken:(NSString *)token {
     // Use the "Bearer" type as an arbitrary default
-    [self setAuthorizationHeaderWithToken:token ofType:@"Bearer"];
+    [self setAuthorizationHeaderWithToken:token ofType:@"Basic"];
 }
 
 - (void)setAuthorizationHeaderWithCredential:(AFOAuthCredential *)credential {
@@ -91,9 +91,9 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
                                  ofType:(NSString *)type
 {
     // See http://tools.ietf.org/html/rfc6749#section-7.1
-    if ([[type lowercaseString] isEqualToString:@"bearer"]) {
+    if ([[type lowercaseString] isEqualToString:@"Basic"]) {
         AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
-        [serializer setValue:[NSString stringWithFormat:@"Bearer %@", token] forHTTPHeaderField:@"Authorization"];
+        [serializer setValue:[NSString stringWithFormat:@"Basic %@", token] forHTTPHeaderField:@"Authorization"];
         self.requestSerializer = serializer;
         
     }
@@ -111,7 +111,7 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
     NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionary];
     [mutableParameters setObject:kAFOAuthPasswordCredentialsGrantType forKey:@"grant_type"];
     [mutableParameters setObject:kAFOAuthPasswordCredentialsResponseType forKey:@"response_type"];
-    [mutableParameters setValue:username forKey:@"username"];
+    [mutableParameters setValue:username forKey:@"login"];
     [mutableParameters setValue:password forKey:@"password"];
     [mutableParameters setValue:scope forKey:@"scope"];
     NSDictionary *parameters = [NSDictionary dictionaryWithDictionary:mutableParameters];
@@ -167,7 +167,7 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
 {
     NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
     [mutableParameters setObject:self.clientID forKey:@"client_id"];
-    [mutableParameters setValue:self.secret forKey:@"client_secret"];
+//    [mutableParameters setValue:self.secret forKey:@"client_secret"];
     parameters = [NSDictionary dictionaryWithDictionary:mutableParameters];
     
     self.requestSerializer = [AFHTTPRequestSerializer serializer];
